@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latihan Kata Kerja — Latihan 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --indigo:#1E3A4C; --indigo-deep:#132833; --gold:#C89B3C; --gold-soft:#E4C878;
+    --cream:#F5F0E1; --cream-card:#FBF8EF; --coral:#D65F4C; --coral-soft:#F3D9D3;
+    --green:#4F7756; --green-soft:#DCE7D8; --amber-soft:#F2E4C4; --ink:#24313A;
+    --ink-soft:#5B6B72; --line:#D9D0B8;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--cream); color:var(--ink); font-family:'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing:antialiased; }
+  .wrap{max-width:800px;margin:0 auto;padding:40px 20px 100px;}
+
+  header{ position:relative; background:var(--indigo); color:var(--cream); border-radius:20px; padding:36px 32px; margin-bottom:36px; overflow:hidden; }
+  header::before{
+    content:""; position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(115deg, rgba(200,155,60,0.08) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(25deg, rgba(200,155,60,0.06) 0 2px, transparent 2px 22px);
+    pointer-events:none;
+  }
+  .eyebrow{ font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-soft); position:relative; }
+  h1{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(26px,5vw,36px); margin:8px 0 6px; position:relative; line-height:1.15; }
+  .subline{position:relative; color:#C9D6DC; font-size:14px; margin:0 0 4px;}
+  .subline .tag-peman{ font-family:'IBM Plex Mono', monospace; color:var(--gold-soft); background:rgba(228,200,120,0.14); padding:1px 7px; border-radius:6px; }
+
+  .instructions{ position:relative; margin-top:18px; background:rgba(255,255,255,0.06); border:1px solid rgba(228,200,120,0.3); border-radius:14px; padding:18px 20px 16px; }
+  .instructions-title{margin:0 0 10px; font-family:'Fraunces', serif; font-weight:600; font-size:16px; color:var(--gold-soft);}
+  .instructions ol{margin:0; padding-left:20px; color:#D6E0E5; font-size:13.5px; line-height:1.65;}
+  .instructions ol > li{margin-bottom:8px;}
+  .instructions ol > li:last-child{margin-bottom:0;}
+  .instructions b{color:var(--gold-soft); font-weight:600;}
+  .instructions ul{margin:6px 0 0; padding-left:18px;}
+  .instructions ul li{margin-bottom:4px;}
+
+  .progress-row{position:relative; margin-top:24px; display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+  .progress-track{flex:1; min-width:120px; height:8px; border-radius:99px; background:rgba(255,255,255,0.14); overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--gold-soft)); border-radius:99px; transition:width .5s cubic-bezier(.4,1.4,.6,1);}
+  .progress-label{font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--gold-soft); white-space:nowrap;}
+  .clear-btn{
+    flex:0 0 auto; font-family:'Plus Jakarta Sans', sans-serif; font-weight:600; font-size:12.5px;
+    color:var(--cream); background:rgba(255,255,255,0.1); border:1px solid rgba(228,200,120,0.4);
+    border-radius:99px; padding:7px 14px; cursor:pointer; white-space:nowrap; transition:background .2s, border-color .2s;
+  }
+  .clear-btn:hover{background:rgba(214,95,76,0.25); border-color:var(--coral);}
+  @media (max-width:480px){ .progress-row{flex-wrap:wrap;} .clear-btn{width:100%; order:3;} }
+
+  .legend{background:var(--cream-card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; margin-bottom:32px;}
+  .legend summary{
+    cursor:pointer; font-family:'Fraunces', serif; font-weight:600; font-size:16px; color:var(--indigo);
+    list-style:none; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .legend summary::-webkit-details-marker{display:none;}
+  .legend summary::after{ content:"↓ ดูเคล็ดลับ"; font-family:'Plus Jakarta Sans',sans-serif; font-weight:500; font-size:12.5px; color:var(--ink-soft); white-space:nowrap; }
+  .legend[open] summary::after{content:"↑ ซ่อน";}
+  .legend-note{ margin:14px 0 4px; font-size:13px; color:var(--ink-soft); background:rgba(30,58,76,0.04); border-left:3px solid var(--gold); padding:8px 12px; border-radius:6px; }
+  .legend-grid{margin-top:12px; display:grid; grid-template-columns:1fr; gap:10px;}
+  .legend-item{ display:grid; grid-template-columns:70px 1fr; gap:12px; align-items:baseline; font-size:13.5px; padding:8px 10px; border-radius:10px; background:rgba(30,58,76,0.03); }
+  .legend-tag{ font-family:'IBM Plex Mono', monospace; font-weight:600; color:var(--indigo); background:var(--amber-soft); border-radius:6px; padding:2px 6px; text-align:center; font-size:12.5px; }
+  .legend-item b{color:var(--indigo);}
+  .legend-item span.th{color:var(--ink-soft);}
+
+  .thread{position:relative;}
+  .thread::before{
+    content:""; position:absolute; left:23px; top:8px; bottom:8px; width:2px;
+    background:repeating-linear-gradient(var(--line), var(--line) 6px, transparent 6px, transparent 11px); z-index:0;
+  }
+  .card{position:relative; z-index:1; display:flex; gap:16px; margin-bottom:18px;}
+  .node{
+    flex:0 0 48px; height:48px; border-radius:50%; background:var(--cream-card); border:2px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono', monospace;
+    font-weight:600; color:var(--ink-soft); transition:all .3s ease; margin-top:6px;
+  }
+  .card.correct .node{background:var(--gold); border-color:var(--gold); color:var(--indigo-deep);}
+  .card-body{ flex:1; background:var(--cream-card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; transition:border-color .3s ease; }
+  .card.correct .card-body{border-color:var(--gold);}
+
+  .q-row{display:flex; align-items:baseline; gap:10px; margin-bottom:14px;}
+  .q-word .root{font-family:'Fraunces', serif; font-weight:600; font-size:22px; color:var(--indigo);}
+  .q-word .meaning{font-size:13px; color:var(--ink-soft); margin-left:8px;}
+
+  .fields-row{display:grid; grid-template-columns:1fr 1.6fr; gap:12px; margin-bottom:6px;}
+  .field label{
+    display:block; font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:.04em;
+    text-transform:uppercase; color:var(--ink-soft); margin-bottom:5px;
+  }
+  input[type="text"]{
+    width:100%; padding:11px 14px; border-radius:10px; border:1.5px solid var(--line);
+    font-family:'IBM Plex Mono', monospace; font-size:15px; background:#fff; color:var(--ink);
+    outline:none; transition:border-color .2s;
+  }
+  input[type="text"]:focus{border-color:var(--indigo);}
+  input[type="text"].fb-green{border-color:var(--green);background:var(--green-soft);}
+  input[type="text"].fb-yellow{border-color:var(--gold);background:var(--amber-soft);}
+  input[type="text"].fb-red{border-color:var(--coral);background:var(--coral-soft);}
+  input[type="text"]:disabled{opacity:0.75;}
+
+  .hint-btn{
+    background:none; border:none; color:var(--ink-soft); font-size:12.5px; text-decoration:underline;
+    cursor:pointer; padding:6px 0 0; font-family:'Plus Jakarta Sans',sans-serif; display:block;
+  }
+
+  .feedback{margin-top:12px; border-radius:12px; padding:14px 16px; font-size:14px; line-height:1.55; display:none;}
+  .feedback.show{display:block; animation:pop .25s ease;}
+  @keyframes pop{from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);}}
+  .feedback.green{background:var(--green-soft); color:#2E4A33;}
+  .feedback.yellow{background:var(--amber-soft); color:#5C4818;}
+  .feedback.red{background:var(--coral-soft); color:#7A2D22;}
+  .feedback .tag{font-weight:700; margin-bottom:4px; display:block;}
+  .feedback .formula{ font-family:'IBM Plex Mono', monospace; font-size:13px; margin-top:8px; padding:8px 10px; background:rgba(255,255,255,0.55); border-radius:8px; display:inline-block; }
+
+  .submit-all-row{display:flex; justify-content:center; margin:8px 0 8px;}
+  button.submit-all{
+    padding:14px 32px; border-radius:99px; border:none; background:var(--indigo); color:var(--cream);
+    font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:15px; cursor:pointer;
+    transition:background .2s, transform .15s; box-shadow:0 4px 14px rgba(30,58,76,0.25);
+  }
+  button.submit-all:hover{background:var(--indigo-deep); transform:translateY(-1px);}
+
+  .summary{margin-top:20px; background:var(--indigo); color:var(--cream); border-radius:20px; padding:32px; text-align:center; display:none;}
+  .summary.show{display:block; animation:pop .4s ease;}
+  .summary h2{font-family:'Fraunces', serif; font-size:26px; margin:0 0 8px; color:var(--gold-soft);}
+  .summary p{margin:0; color:#C9D6DC; font-size:14.5px;}
+  .summary .score{font-family:'IBM Plex Mono', monospace; font-size:38px; color:var(--gold); margin:10px 0;}
+  .reset-btn{ margin-top:18px; background:var(--gold); color:var(--indigo-deep); border:none; padding:10px 22px; border-radius:99px; font-weight:700; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; }
+
+  @media (max-width:560px){
+    .card{gap:10px;}
+    .node{flex:0 0 36px;height:36px;font-size:12px;margin-top:4px;}
+    .thread::before{left:17px;}
+    .card-body{padding:16px;}
+    .fields-row{grid-template-columns:1fr;}
+    .legend-item{grid-template-columns:1fr; gap:4px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Latihan 5 · Kata Kerja · ม.12</div>
+    <h1>ระบุรูป meN- แล้วประกอบคำกริยา</h1>
+    <p class="subline">ตอบ<span class="tag-peman">2 ช่อง</span>ต่อข้อ — เลือกรูป meN- ที่ถูกต้องก่อน แล้วค่อยประกอบเป็นคำกริยาตริตานเต็มรูป</p>
+
+    <div class="instructions">
+      <p class="instructions-title">📋 คำชี้แจง</p>
+      <ol>
+        <li>โจทย์แต่ละข้อเป็น <b>Kata Dasar</b> ให้ตอบ 2 ช่อง:
+          <ul>
+            <li><b>ช่องที่ 1 "Bentuk meN-"</b> — ระบุรูปหน่วยคำเติมที่ถูกต้อง ได้แก่ <b>mem-, men-, meng-, meny-, menge-</b> หรือ <b>me-</b></li>
+            <li><b>ช่องที่ 2 "Kata Kerja Terbitan"</b> — ประกอบรูป meN- ที่เลือกเข้ากับรากศัพท์ให้เป็นคำกริยาที่สมบูรณ์</li>
+          </ul>
+        </li>
+        <li>กรอกคำตอบให้ครบทั้ง 15 ข้อ แล้วกด <b>"ส่งคำตอบ"</b> ด้านล่างสุดเพียงครั้งเดียว เพื่อตรวจทุกข้อพร้อมกัน</li>
+        <li>ข้อที่ถูกครบทั้งสองช่อง 🟢 จะถูกล็อกไว้ — ข้อที่ยังไม่ถูก 🟡🔴 จะบอกว่าช่องไหนต้องแก้ ให้แก้ไขแล้วกด <b>"ทำอีกครั้ง"</b></li>
+        <li>กด <b>"💡 ต้องการคำใบ้?"</b> รายข้อ หรือเปิดแผง <b>"เคล็ดลับ"</b> ด้านล่างก่อนเริ่มทำ — ปุ่ม <b>"↺ ล้างคำตอบ"</b> ใช้เริ่มทำใหม่ได้ตลอดเวลา</li>
+      </ol>
+    </div>
+
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">0 / 15 ถูกต้อง</div>
+      <button class="clear-btn" onclick="confirmReset()" title="ล้างคำตอบทั้งหมดและเริ่มทำใหม่">↺ ล้างคำตอบ</button>
+    </div>
+  </header>
+
+  <details class="legend">
+    <summary>เคล็ดลับ: กฎการเปลี่ยนเสียง meN-</summary>
+    <div class="legend-note">เลือก Bentuk meN- จากเสียงแรกของรากศัพท์ก่อน แล้วจึงเติมรากศัพท์ต่อท้าย — กฎเหมือนกับ peN- (คำนาม) ทุกประการ เพียงแค่เปลี่ยน p เป็น m</div>
+    <div class="legend-grid">
+      <div class="legend-item"><span class="legend-tag">mem-</span><span><b>b, p</b> (p หลุดหาย) — baca → mem<u>baca</u>, pukul → mem<u>ukul</u></span></div>
+      <div class="legend-item"><span class="legend-tag">men-</span><span><b>d, t, c</b> (t หลุดหาย) — dengar → men<u>dengar</u>, tulis → men<u>ulis</u>, cari → men<u>cari</u></span></div>
+      <div class="legend-item"><span class="legend-tag">meng-</span><span><b>สระ, g, k</b> (k หลุดหาย) — ajar → meng<u>ajar</u>, guna → meng<u>guna</u>, kira → meng<u>ira</u></span></div>
+      <div class="legend-item"><span class="legend-tag">meny-</span><span><b>s</b> (s หลุดหาย แทนที่ด้วย ny) — sapu → meny<u>apu</u>, sebut → meny<u>ebut</u></span></div>
+      <div class="legend-item"><span class="legend-tag">menge-</span><span><b>คำพยางค์เดียว</b> (ไม่ว่าจะขึ้นต้นด้วยอะไร) — cat → menge<u>cat</u>, lap → menge<u>lap</u></span></div>
+      <div class="legend-item"><span class="legend-tag">me-</span><span><b>m, n, l, r, w, y</b> (เสียงนาสิก/ลิ้นสั่นอยู่แล้ว) — masak → me<u>masak</u></span></div>
+    </div>
+  </details>
+
+  <div class="thread" id="thread"></div>
+
+  <div class="submit-all-row" id="submitAllRow">
+    <button class="submit-all" onclick="submitAll()">ส่งคำตอบ</button>
+  </div>
+
+  <div class="summary" id="summary">
+    <h2 id="summaryTitle">Tahniah! 🎉</h2>
+    <div class="score" id="summaryScore">15 / 15</div>
+    <p id="summaryText">คุณระบุรูป meN- และประกอบคำกริยาตริตานได้ถูกต้องครบทุกข้อแล้ว</p>
+    <button class="reset-btn" id="tryAgainBtn" onclick="scrollToNextIssue()" style="display:none;">ทำอีกครั้ง</button>
+    <button class="reset-btn" id="resetAllBtn" onclick="resetAll()" style="display:none;">เริ่มใหม่อีกครั้ง</button>
+  </div>
+
+</div>
+
+<script>
+const DATA = [
+  { root:"baca", meaningRoot:"อ่าน", prefix:"mem", correctWord:["membaca"],
+    display:"membaca", meaning:"อ่าน",
+    ruleTH:"baca ขึ้นต้นด้วย b (เสียงก้อง) จึงคงตัว b ไว้และเติม m หน้า → mem-" },
+  { root:"tulis", meaningRoot:"เขียน", prefix:"men", correctWord:["menulis"],
+    display:"menulis", meaning:"เขียน",
+    ruleTH:"tulis ขึ้นต้นด้วย t (เสียงไม่ก้อง) จึงตัด t ทิ้งและแทนที่ด้วย n → men-" },
+  { root:"sapu", meaningRoot:"กวาด", prefix:"meny", correctWord:["menyapu"],
+    display:"menyapu", meaning:"กวาด",
+    ruleTH:"sapu ขึ้นต้นด้วย s (เสียงไม่ก้อง) จึงตัด s ทิ้งและแทนที่ด้วย ny → meny-",
+    common:{ "mesapu":"sapu ต้องตัด s ทิ้งแล้วแทนที่ด้วย ny ไม่ใช่แค่เติม me- เฉยๆ — คำที่ถูกต้องคือ menyapu", "mensapu":"sapu ต้องแทนที่ s ด้วย ny ไม่ใช่ n — คำที่ถูกต้องคือ menyapu" } },
+  { root:"pukul", meaningRoot:"ตี", prefix:"mem", correctWord:["memukul"],
+    display:"memukul", meaning:"ตี",
+    ruleTH:"pukul ขึ้นต้นด้วย p (เสียงไม่ก้อง) จึงตัด p ทิ้งและแทนที่ด้วย m → mem-",
+    common:{ "mempukul":"pukul ต้องตัด p ทิ้ง ไม่ใช่คงตัว p ไว้ — คำที่ถูกต้องคือ memukul ไม่ใช่ mempukul" } },
+  { root:"ajar", meaningRoot:"สอน", prefix:"meng", correctWord:["mengajar"],
+    display:"mengajar", meaning:"สอน",
+    ruleTH:"ajar ขึ้นต้นด้วยสระ a จึงใช้ meng-" },
+  { root:"kira", meaningRoot:"คิด / คำนวณ", prefix:"meng", correctWord:["mengira"],
+    display:"mengira", meaning:"คิด / คาดคะเน / คำนวณ",
+    ruleTH:"kira ขึ้นต้นด้วย k (เสียงไม่ก้อง) จึงตัด k ทิ้งและแทนที่ด้วย ng → meng-",
+    common:{ "mengkira":"kira ต้องตัด k ทิ้ง ไม่ใช่คงตัว k ไว้ — คำที่ถูกต้องคือ mengira ไม่ใช่ mengkira" } },
+  { root:"cat", meaningRoot:"สี / ทาสี", prefix:"menge", correctWord:["mengecat"],
+    display:"mengecat", meaning:"ทาสี",
+    ruleTH:"cat เป็นคำพยางค์เดียว (monosuku kata) จึงต้องแทรกเสียง e พิเศษก่อนรากศัพท์เสมอ → menge-",
+    common:{ "mencat":"cat เป็นคำพยางค์เดียว กฎพิเศษกำหนดให้แทรกเสียง e ก่อนรากศัพท์เสมอ → mengecat ไม่ใช่ mencat" } },
+  { root:"masak", meaningRoot:"ทำอาหาร", prefix:"me", correctWord:["memasak"],
+    display:"memasak", meaning:"ทำอาหาร / ปรุงอาหาร",
+    ruleTH:"masak ขึ้นต้นด้วย m ซึ่งเป็นเสียงนาสิกอยู่แล้ว จึงเติมแค่ me- ต่อตรงกับราก (me+masak=memasak) ไม่ได้เติมเสียงนาสิกซ้ำ" },
+  { root:"cari", meaningRoot:"หา / ค้นหา", prefix:"men", correctWord:["mencari"],
+    display:"mencari", meaning:"หา / ค้นหา",
+    ruleTH:"cari ขึ้นต้นด้วย c จัดกลุ่มเดียวกับ d, t (t หลุดหาย) จึงใช้ men- โดยคง c ไว้" },
+  { root:"dengar", meaningRoot:"ฟัง", prefix:"men", correctWord:["mendengar"],
+    display:"mendengar", meaning:"ฟัง",
+    ruleTH:"dengar ขึ้นต้นด้วย d (เสียงก้อง) จึงคงตัว d ไว้และเติม n หน้า → men-" },
+  { root:"beli", meaningRoot:"ซื้อ", prefix:"mem", correctWord:["membeli"],
+    display:"membeli", meaning:"ซื้อ",
+    ruleTH:"beli ขึ้นต้นด้วย b (เสียงก้อง) จึงคงตัว b ไว้และเติม m หน้า → mem-" },
+  { root:"tolong", meaningRoot:"ช่วยเหลือ", prefix:"men", correctWord:["menolong"],
+    display:"menolong", meaning:"ช่วยเหลือ",
+    ruleTH:"tolong ขึ้นต้นด้วย t (เสียงไม่ก้อง) จึงตัด t ทิ้งและแทนที่ด้วย n → men-",
+    common:{ "mentolong":"tolong ต้องตัด t ทิ้ง ไม่ใช่คงตัว t ไว้ — คำที่ถูกต้องคือ menolong ไม่ใช่ mentolong" } },
+  { root:"guna", meaningRoot:"ใช้", prefix:"meng", correctWord:["menggunakan","mengguna"],
+    display:"menggunakan", meaning:"ใช้",
+    ruleTH:"guna ขึ้นต้นด้วย g (เสียงก้อง) จึงคงตัว g ไว้และเติม ng หน้า → meng- แต่ในการใช้จริง คำกริยาที่เป็นธรรมชาติต้องเติม -kan ปิดท้ายด้วย กลายเป็น menggunakan (mengguna เฉยๆ ไม่ใช่คำที่ใช้จริง)",
+    common:{ "mengguna":"mengguna ตามหลัก meng- ถูกต้องแล้ว แต่ในภาษามลายูจริงคำกริยานี้ต้องเติม -kan ปิดท้ายเสมอ กลายเป็น menggunakan จึงจะเป็นคำที่ใช้จริง" } },
+  { root:"sebut", meaningRoot:"พูดถึง / เอ่ยถึง", prefix:"meny", correctWord:["menyebut"],
+    display:"menyebut", meaning:"พูดถึง / เอ่ยถึง / ออกเสียง",
+    ruleTH:"sebut ขึ้นต้นด้วย s (เสียงไม่ก้อง) จึงตัด s ทิ้งและแทนที่ด้วย ny → meny-",
+    common:{ "mensebut":"sebut ต้องตัด s ทิ้งแล้วแทนที่ด้วย ny ไม่ใช่ n — คำที่ถูกต้องคือ menyebut" } },
+  { root:"lap", meaningRoot:"เช็ด / ถู", prefix:"menge", correctWord:["mengelap"],
+    display:"mengelap", meaning:"เช็ด / ถู",
+    ruleTH:"lap เป็นคำพยางค์เดียว (monosuku kata) แม้ขึ้นต้นด้วย l ที่ปกติจะใช้ me- เฉยๆ แต่กฎคำพยางค์เดียวมีน้ำหนักกว่า จึงต้องแทรกเสียง e พิเศษ → menge-",
+    common:{ "melap":"lap เป็นคำพยางค์เดียว แม้ขึ้นต้นด้วย l แต่กฎคำพยางค์เดียวบังคับให้แทรกเสียง e เสมอ — คำที่ถูกต้องคือ mengelap ไม่ใช่ melap" } },
+];
+
+let solvedCount = 0;
+let anyAnswered = false;
+
+function normalizePrefix(s){
+  return s.trim().toLowerCase().replace(/-+$/,'').replace(/\s+/g,'');
+}
+function normalizeWord(s){
+  return s.trim().toLowerCase().replace(/\s+/g,'');
+}
+
+function buildCards(){
+  const thread = document.getElementById('thread');
+  thread.innerHTML = '';
+  DATA.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.id = 'card-'+i;
+    card.innerHTML = `
+      <div class="node">${String(i+1).padStart(2,'0')}</div>
+      <div class="card-body">
+        <div class="q-row"><span class="q-word"><span class="root">${item.root}</span><span class="meaning">= ${item.meaningRoot}</span></span></div>
+        <div class="fields-row">
+          <div class="field">
+            <label>Bentuk meN-</label>
+            <input type="text" id="prefix-${i}" placeholder="เช่น mem-" autocomplete="off" oninput="markAnswered()">
+          </div>
+          <div class="field">
+            <label>Kata Kerja Terbitan</label>
+            <input type="text" id="word-${i}" placeholder="พิมพ์คำตอบเต็ม..." autocomplete="off" oninput="markAnswered()">
+          </div>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(${i})" id="hintBtn-${i}">💡 ต้องการคำใบ้?</button>
+        <div class="feedback" id="feedback-${i}"></div>
+      </div>
+    `;
+    thread.appendChild(card);
+  });
+  document.getElementById('progressLabel').textContent = `0 / ${DATA.length} ถูกต้อง`;
+  document.getElementById('submitAllRow').style.display = 'flex';
+}
+
+function markAnswered(){ anyAnswered = true; }
+
+function toggleHint(i){
+  const fb = document.getElementById('feedback-'+i);
+  const item = DATA[i];
+  fb.className = 'feedback show yellow';
+  fb.innerHTML = `<span class="tag">💡 คำใบ้</span>${item.ruleTH}`;
+}
+
+function submitAll(){
+  DATA.forEach((item, i) => {
+    const card = document.getElementById('card-'+i);
+    if (card.classList.contains('correct')) return;
+
+    const prefixInput = document.getElementById('prefix-'+i);
+    const wordInput = document.getElementById('word-'+i);
+    const fb = document.getElementById('feedback-'+i);
+
+    const prefixVal = normalizePrefix(prefixInput.value);
+    const wordVal = normalizeWord(wordInput.value);
+
+    [prefixInput, wordInput].forEach(inp => inp.classList.remove('fb-green','fb-yellow','fb-red'));
+
+    if (prefixVal === '' && wordVal === '') {
+      fb.className = 'feedback show red';
+      prefixInput.classList.add('fb-red'); wordInput.classList.add('fb-red');
+      fb.innerHTML = `<span class="tag">🔴 ยังไม่ได้ตอบ</span>ข้อนี้ยังไม่ได้กรอกเลย — กรอกให้ครบแล้วกด "ทำอีกครั้ง"`;
+      return;
+    }
+
+    const prefixCorrect = prefixVal === item.prefix;
+    const wordCorrect = item.correctWord.includes(wordVal);
+
+    prefixInput.classList.add(prefixCorrect ? 'fb-green' : 'fb-red');
+    wordInput.classList.add(wordCorrect ? 'fb-green' : 'fb-red');
+
+    if (prefixCorrect && wordCorrect) {
+      fb.className = 'feedback show green';
+      fb.innerHTML = `
+        <span class="tag">🟢 Tahniah! 🎉</span>
+        คุณระบุ <b>${item.prefix}-</b> และประกอบเป็น <b>${item.display}</b> (${item.meaning}) ได้ถูกต้องครบทั้งสองช่องแล้ว!
+        <div class="formula">${item.prefix}- + ${item.root} → ${item.display} = ${item.meaning}</div>
+      `;
+      prefixInput.disabled = true; wordInput.disabled = true;
+      card.classList.add('correct');
+      solvedCount++;
+      return;
+    }
+
+    if (prefixCorrect && !wordCorrect) {
+      wordInput.classList.remove('fb-red'); wordInput.classList.add('fb-yellow');
+      const extra = (item.common && item.common[wordVal]) ? item.common[wordVal]
+                  : `ระบุรูป ${item.prefix}- ถูกต้องแล้ว แต่คำกริยายังไม่ตรง ลองเติม ${item.prefix}- + ${item.root} ดูอีกครั้ง`;
+      fb.className = 'feedback show yellow';
+      fb.innerHTML = `
+        <span class="tag">🟡 Hampir betul!</span>
+        ${extra}
+        <div class="formula">${item.prefix}- + ${item.root} → ${item.display} (${item.meaning})</div>
+      `;
+      return;
+    }
+
+    if (!prefixCorrect && wordCorrect) {
+      prefixInput.classList.remove('fb-red'); prefixInput.classList.add('fb-yellow');
+      fb.className = 'feedback show yellow';
+      fb.innerHTML = `
+        <span class="tag">🟡 Hampir betul!</span>
+        คำกริยาในช่องที่ 2 ถูกต้องแล้ว (${item.display}) แต่รูป meN- ในช่องที่ 1 ยังไม่ตรงกับคำนี้ — ${item.ruleTH}
+        <div class="formula">${item.prefix}- + ${item.root} → ${item.display}</div>
+      `;
+      return;
+    }
+
+    if (item.common && item.common[wordVal]) {
+      fb.className = 'feedback show yellow';
+      wordInput.classList.remove('fb-red'); wordInput.classList.add('fb-yellow');
+      fb.innerHTML = `
+        <span class="tag">🟡 Hampir betul!</span>
+        ${item.common[wordVal]} และรูป meN- ที่ถูกต้องคือ <b>${item.prefix}-</b>
+        <div class="formula">${item.prefix}- + ${item.root} → ${item.display} (${item.meaning})</div>
+      `;
+      return;
+    }
+
+    fb.className = 'feedback show red';
+    fb.innerHTML = `
+      <span class="tag">🔴 Belum tepat!</span>
+      รูปที่ถูกต้องคือ <b>${item.prefix}-</b> และคำกริยาตริตานคือ <b>${item.display}</b> terbentuk daripada <b>${item.prefix}-</b> + <b>${item.root}</b>.<br>
+      ${item.ruleTH} → ${item.meaningRoot} = ${item.meaning}
+      <div class="formula">${item.root} → ${item.prefix}- + ${item.root} → ${item.display}</div>
+    `;
+  });
+
+  updateProgress();
+  showSummary();
+}
+
+function updateProgress(){
+  const pct = Math.round((solvedCount / DATA.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `${solvedCount} / ${DATA.length} ถูกต้อง`;
+}
+
+function showSummary(){
+  const summary = document.getElementById('summary');
+  const title = document.getElementById('summaryTitle');
+  const scoreEl = document.getElementById('summaryScore');
+  const text = document.getElementById('summaryText');
+  const tryAgainBtn = document.getElementById('tryAgainBtn');
+  const resetAllBtn = document.getElementById('resetAllBtn');
+
+  scoreEl.textContent = `${solvedCount} / ${DATA.length}`;
+  summary.classList.add('show');
+
+  if (solvedCount === DATA.length) {
+    title.textContent = 'Tahniah! 🎉';
+    text.textContent = 'คุณระบุรูป meN- และประกอบคำกริยาตริตานได้ถูกต้องครบทุกข้อแล้ว';
+    tryAgainBtn.style.display = 'none';
+    resetAllBtn.style.display = 'inline-block';
+    document.getElementById('submitAllRow').style.display = 'none';
+    summary.scrollIntoView({behavior:'smooth', block:'center'});
+  } else {
+    const remaining = DATA.length - solvedCount;
+    title.textContent = 'ยังไม่ครบถ้วน';
+    text.textContent = `ยังมี ${remaining} ข้อที่ยังไม่ถูกครบทั้งสองช่อง ลองแก้ไขช่องที่ขึ้นสีเหลือง/แดงด้านบน แล้วกด "ทำอีกครั้ง"`;
+    tryAgainBtn.style.display = 'inline-block';
+    resetAllBtn.style.display = 'none';
+    summary.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function scrollToNextIssue(){
+  document.getElementById('summary').classList.remove('show');
+  const firstIssue = DATA.findIndex((_, i) => !document.getElementById('card-'+i).classList.contains('correct'));
+  if (firstIssue >= 0) {
+    document.getElementById('card-'+firstIssue).scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function confirmReset(){
+  if (!anyAnswered && solvedCount === 0) { resetAll(); return; }
+  if (window.confirm('ล้างคำตอบทั้งหมดและเริ่มทำใหม่ทั้ง 15 ข้อหรือไม่?')) {
+    resetAll();
+  }
+}
+
+function resetAll(){
+  solvedCount = 0;
+  anyAnswered = false;
+  document.getElementById('summary').classList.remove('show');
+  buildCards();
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+buildCards();
+</script>
+</body>
+</html>
